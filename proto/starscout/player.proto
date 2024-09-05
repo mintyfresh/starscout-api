@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package starscout;
+
+import "starscout/errors.proto";
+import "starscout/pagination.proto";
+import "google/protobuf/wrappers.proto";
+
+message Player
+{
+  string id = 1;
+  string name = 2;
+  google.protobuf.UInt32Value rank = 3;
+  uint32 score = 4;
+  double opponent_win_rate = 5;
+  uint32 wins_count = 6;
+  uint32 draws_count = 7;
+  uint32 losses_count = 8;
+  bool dropped = 9;
+  google.protobuf.StringValue last_modified_at = 10;
+}
+
+message GetPlayersRequest
+{
+  string event_id = 1;
+  google.protobuf.UInt32Value page = 2;
+  google.protobuf.UInt32Value per_page = 3;
+}
+
+message GetPlayersResponse
+{
+  repeated Player players = 1;
+  starscout.Pagination pagination = 2;
+}
+
+message GetPlayerRequest
+{
+  string event_id = 1;
+  string id = 2;
+}
+
+message GetPlayerResponse
+{
+  Player player = 1;
+}
+
+message UpsertPlayerRequest
+{
+  string event_id = 1;
+  Player player = 2;
+}
+
+message UpsertPlayerResponse
+{
+  oneof response
+  {
+    Player player = 1;
+    starscout.ValidationErrors errors = 2;
+  }
+}
+
+message DeletePlayerRequest
+{
+  string event_id = 1;
+  string id = 2;
+}
+
+message DeletePlayerResponse
+{
+  oneof response
+  {
+    bool success = 1;
+    starscout.ValidationErrors errors = 2;
+  }
+}

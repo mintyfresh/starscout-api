@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package starscout;
+
+import "starscout/event.proto";
+import "starscout/player.proto";
+import "starscout/round.proto";
+
+service Starscout
+{
+  rpc GetEvents(GetEventsRequest) returns (GetEventsResponse) {}
+  rpc GetEvent(GetEventRequest) returns (GetEventResponse) {}
+
+  rpc GetPlayers(GetPlayersRequest) returns (GetPlayersResponse) {}
+  rpc GetPlayer(GetPlayerRequest) returns (GetPlayerResponse) {}
+  rpc UpsertPlayer(UpsertPlayerRequest) returns (UpsertPlayerResponse) {}
+  rpc DeletePlayer(DeletePlayerRequest) returns (DeletePlayerResponse) {}
+
+  rpc GetRounds(GetRoundsRequest) returns (GetRoundsResponse) {}
+  rpc GetRound(GetRoundRequest) returns (GetRoundResponse) {}
+  rpc UpsertRound(UpsertRoundRequest) returns (UpsertRoundResponse) {}
+  rpc DeleteRound(DeleteRoundRequest) returns (DeleteRoundResponse) {}
+}

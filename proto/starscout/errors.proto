@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package starscout;
+
+message ValidationErrors
+{
+  repeated ValidationError errors = 1;
+}
+
+message ValidationError
+{
+  string attribute = 1;
+  string message = 2;
+}

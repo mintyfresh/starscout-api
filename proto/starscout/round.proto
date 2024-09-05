@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package starscout;
+
+import "starscout/errors.proto";
+import "starscout/pagination.proto";
+import "google/protobuf/wrappers.proto";
+
+message Round
+{
+  uint32 number = 1;
+  uint32 matches_count = 2;
+  bool complete = 3;
+  google.protobuf.StringValue last_modified_at = 4;
+  repeated Match matches = 5;
+}
+
+message Match
+{
+  uint32 table = 1;
+  string player1_id = 2;
+  string player2_id = 3;
+  google.protobuf.StringValue winner_id = 4;
+  bool draw = 5;
+  bool bye = 6;
+}
+
+message GetRoundsRequest
+{
+  string event_id = 1;
+  google.protobuf.UInt32Value page = 2;
+  google.protobuf.UInt32Value per_page = 3;
+}
+
+message GetRoundsResponse
+{
+  repeated Round rounds = 1;
+  starscout.Pagination pagination = 2;
+}
+
+message GetRoundRequest
+{
+  string event_id = 1;
+  uint32 number = 2;
+}
+
+message GetRoundResponse
+{
+  Round round = 1;
+}
+
+message UpsertRoundRequest
+{
+  string event_id = 1;
+  Round round = 2;
+}
+
+message UpsertRoundResponse
+{
+  oneof response
+  {
+    Round round = 1;
+    starscout.ValidationErrors errors = 2;
+  }
+}
+
+message DeleteRoundRequest
+{
+  string event_id = 1;
+  uint32 number = 2;
+}
+
+message DeleteRoundResponse
+{
+  oneof response
+  {
+    bool success = 1;
+    starscout.ValidationErrors errors = 2;
+  }
+}

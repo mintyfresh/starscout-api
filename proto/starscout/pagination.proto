@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package starscout;
+
+message Pagination
+{
+  uint32 page = 1;
+  uint32 per_page = 2;
+  uint32 total_pages = 3;
+  uint32 total_count = 4;
+}

@@ -35,4 +35,10 @@ module Starscout
 
     result
   end
+
+  UUID.class_eval do
+    def inspect
+      "<Starscout::UUID: value: #{Starscout.decode_uuid(self)} (binary)>"
+    end
+  end
 end

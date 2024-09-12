@@ -7,6 +7,8 @@ require 'starscout/event_pb'
 require 'starscout/player_pb'
 require 'starscout/round_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
+  add_file("starscout/service.proto", :syntax => :proto3) do
+  end
 end
 
 module Starscout

@@ -4,44 +4,47 @@
 require 'google/protobuf'
 
 require 'starscout/pagination_pb'
+require 'starscout/uuid_pb'
 require 'google/protobuf/wrappers_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "starscout.Event" do
-    optional :id, :string, 1
-    optional :type, :enum, 2, "starscout.EventType"
-    optional :name, :string, 3
-    optional :description, :string, 4
-    optional :location, :string, 5
-    optional :time_zone, :string, 6
-    optional :starts_at, :string, 7
-    optional :ends_at, :string, 8
-    optional :players_count, :uint32, 9
-  end
-  add_message "starscout.GetEventsRequest" do
-    optional :page, :message, 1, "google.protobuf.UInt32Value"
-    optional :per_page, :message, 2, "google.protobuf.UInt32Value"
-  end
-  add_message "starscout.GetEventsResponse" do
-    repeated :events, :message, 1, "starscout.Event"
-    optional :pagination, :message, 2, "starscout.Pagination"
-  end
-  add_message "starscout.GetEventRequest" do
-    optional :id, :string, 1
-  end
-  add_message "starscout.GetEventResponse" do
-    optional :event, :message, 1, "starscout.Event"
-  end
-  add_enum "starscout.EventType" do
-    value :EVENT_TYPE_UNSPECIFIED, 0
-    value :EVENT_TYPE_CONSTRUCTED, 1
+  add_file("starscout/event.proto", :syntax => :proto3) do
+    add_message "starscout.Event" do
+      optional :id, :message, 1, "starscout.UUID"
+      optional :type, :enum, 2, "starscout.EventType"
+      optional :name, :string, 3
+      optional :description, :string, 4
+      optional :location, :string, 5
+      optional :time_zone, :string, 6
+      optional :starts_at, :string, 7
+      optional :ends_at, :string, 8
+      optional :players_count, :uint32, 9
+    end
+    add_message "starscout.GetEventsRequest" do
+      optional :page, :message, 1, "google.protobuf.UInt32Value"
+      optional :per_page, :message, 2, "google.protobuf.UInt32Value"
+    end
+    add_message "starscout.GetEventsResponse" do
+      repeated :events, :message, 1, "starscout.Event"
+      optional :pagination, :message, 2, "starscout.Pagination"
+    end
+    add_message "starscout.GetEventRequest" do
+      optional :id, :message, 1, "starscout.UUID"
+    end
+    add_message "starscout.GetEventResponse" do
+      optional :event, :message, 1, "starscout.Event"
+    end
+    add_enum "starscout.EventType" do
+      value :EVENT_TYPE_UNSPECIFIED, 0
+      value :EVENT_TYPE_CONSTRUCTED, 1
+    end
   end
 end
 
 module Starscout
-  Event = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.Event").msgclass
-  GetEventsRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventsRequest").msgclass
-  GetEventsResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventsResponse").msgclass
-  GetEventRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventRequest").msgclass
-  GetEventResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventResponse").msgclass
-  EventType = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.EventType").enummodule
+  Event = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.Event").msgclass
+  GetEventsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventsRequest").msgclass
+  GetEventsResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventsResponse").msgclass
+  GetEventRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventRequest").msgclass
+  GetEventResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetEventResponse").msgclass
+  EventType = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.EventType").enummodule
 end

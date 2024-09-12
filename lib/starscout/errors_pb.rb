@@ -4,16 +4,18 @@
 require 'google/protobuf'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "starscout.ValidationErrors" do
-    repeated :errors, :message, 1, "starscout.ValidationError"
-  end
-  add_message "starscout.ValidationError" do
-    optional :attribute, :string, 1
-    optional :message, :string, 2
+  add_file("starscout/errors.proto", :syntax => :proto3) do
+    add_message "starscout.ValidationErrors" do
+      repeated :errors, :message, 1, "starscout.ValidationError"
+    end
+    add_message "starscout.ValidationError" do
+      optional :attribute, :string, 1
+      optional :message, :string, 2
+    end
   end
 end
 
 module Starscout
-  ValidationErrors = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.ValidationErrors").msgclass
-  ValidationError = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.ValidationError").msgclass
+  ValidationErrors = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.ValidationErrors").msgclass
+  ValidationError = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.ValidationError").msgclass
 end

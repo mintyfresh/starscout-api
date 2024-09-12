@@ -3,11 +3,12 @@ syntax = "proto3";
 package starscout;
 
 import "starscout/pagination.proto";
+import "starscout/uuid.proto";
 import "google/protobuf/wrappers.proto";
 
 message Event
 {
-  string id = 1;
+  starscout.UUID id = 1;
   EventType type = 2;
   string name = 3;
   string description = 4;
@@ -38,7 +39,7 @@ message GetEventsResponse
 
 message GetEventRequest
 {
-  string id = 1;
+  starscout.UUID id = 1;
 }
 
 message GetEventResponse

@@ -4,11 +4,13 @@ package starscout;
 
 import "starscout/errors.proto";
 import "starscout/pagination.proto";
+import "starscout/uuid.proto";
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
 
 message Player
 {
-  string id = 1;
+  starscout.UUID id = 1;
   string name = 2;
   google.protobuf.UInt32Value rank = 3;
   uint32 score = 4;
@@ -17,12 +19,12 @@ message Player
   uint32 draws_count = 7;
   uint32 losses_count = 8;
   bool dropped = 9;
-  google.protobuf.StringValue last_modified_at = 10;
+  google.protobuf.Timestamp last_modified_at = 10;
 }
 
 message GetPlayersRequest
 {
-  string event_id = 1;
+  starscout.UUID event_id = 1;
   google.protobuf.UInt32Value page = 2;
   google.protobuf.UInt32Value per_page = 3;
 }
@@ -35,8 +37,8 @@ message GetPlayersResponse
 
 message GetPlayerRequest
 {
-  string event_id = 1;
-  string id = 2;
+  starscout.UUID event_id = 1;
+  starscout.UUID id = 2;
 }
 
 message GetPlayerResponse
@@ -46,8 +48,11 @@ message GetPlayerResponse
 
 message UpsertPlayerRequest
 {
-  string event_id = 1;
-  Player player = 2;
+  starscout.UUID event_id = 1;
+  starscout.UUID id = 2;
+  string name = 3;
+  bool dropped = 4;
+  google.protobuf.Timestamp last_modified_at = 5;
 }
 
 message UpsertPlayerResponse
@@ -61,8 +66,8 @@ message UpsertPlayerResponse
 
 message DeletePlayerRequest
 {
-  string event_id = 1;
-  string id = 2;
+  starscout.UUID event_id = 1;
+  starscout.UUID id = 2;
 }
 
 message DeletePlayerResponse

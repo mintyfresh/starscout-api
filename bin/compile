@@ -1,11 +1,15 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'fileutils'
 require 'pathname'
 
 PROJECT_ROOT = Pathname.new(File.expand_path('..', __dir__)).freeze
 PROTO_PATH = PROJECT_ROOT.join('proto').freeze
 RUBY_OUT_PATH = PROJECT_ROOT.join('lib').freeze
+
+FileUtils.mkdir_p(RUBY_OUT_PATH)
+FileUtils.rm_rf(Dir[RUBY_OUT_PATH.join('**/*.rb')])
 
 IO.popen("protoc --proto_path=#{PROTO_PATH} --ruby_out=#{RUBY_OUT_PATH} --twirp_ruby_out=#{RUBY_OUT_PATH} #{PROTO_PATH.join('**/*.proto')}") do |io|
   io.each { |line| puts line }

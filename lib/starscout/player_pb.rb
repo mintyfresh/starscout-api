@@ -5,66 +5,73 @@ require 'google/protobuf'
 
 require 'starscout/errors_pb'
 require 'starscout/pagination_pb'
+require 'starscout/uuid_pb'
 require 'google/protobuf/wrappers_pb'
+require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "starscout.Player" do
-    optional :id, :string, 1
-    optional :name, :string, 2
-    optional :rank, :message, 3, "google.protobuf.UInt32Value"
-    optional :score, :uint32, 4
-    optional :opponent_win_rate, :double, 5
-    optional :wins_count, :uint32, 6
-    optional :draws_count, :uint32, 7
-    optional :losses_count, :uint32, 8
-    optional :dropped, :bool, 9
-    optional :last_modified_at, :message, 10, "google.protobuf.StringValue"
-  end
-  add_message "starscout.GetPlayersRequest" do
-    optional :event_id, :string, 1
-    optional :page, :message, 2, "google.protobuf.UInt32Value"
-    optional :per_page, :message, 3, "google.protobuf.UInt32Value"
-  end
-  add_message "starscout.GetPlayersResponse" do
-    repeated :players, :message, 1, "starscout.Player"
-    optional :pagination, :message, 2, "starscout.Pagination"
-  end
-  add_message "starscout.GetPlayerRequest" do
-    optional :event_id, :string, 1
-    optional :id, :string, 2
-  end
-  add_message "starscout.GetPlayerResponse" do
-    optional :player, :message, 1, "starscout.Player"
-  end
-  add_message "starscout.UpsertPlayerRequest" do
-    optional :event_id, :string, 1
-    optional :player, :message, 2, "starscout.Player"
-  end
-  add_message "starscout.UpsertPlayerResponse" do
-    oneof :response do
-      optional :player, :message, 1, "starscout.Player"
-      optional :errors, :message, 2, "starscout.ValidationErrors"
+  add_file("starscout/player.proto", :syntax => :proto3) do
+    add_message "starscout.Player" do
+      optional :id, :message, 1, "starscout.UUID"
+      optional :name, :string, 2
+      optional :rank, :message, 3, "google.protobuf.UInt32Value"
+      optional :score, :uint32, 4
+      optional :opponent_win_rate, :double, 5
+      optional :wins_count, :uint32, 6
+      optional :draws_count, :uint32, 7
+      optional :losses_count, :uint32, 8
+      optional :dropped, :bool, 9
+      optional :last_modified_at, :message, 10, "google.protobuf.Timestamp"
     end
-  end
-  add_message "starscout.DeletePlayerRequest" do
-    optional :event_id, :string, 1
-    optional :id, :string, 2
-  end
-  add_message "starscout.DeletePlayerResponse" do
-    oneof :response do
-      optional :success, :bool, 1
-      optional :errors, :message, 2, "starscout.ValidationErrors"
+    add_message "starscout.GetPlayersRequest" do
+      optional :event_id, :message, 1, "starscout.UUID"
+      optional :page, :message, 2, "google.protobuf.UInt32Value"
+      optional :per_page, :message, 3, "google.protobuf.UInt32Value"
+    end
+    add_message "starscout.GetPlayersResponse" do
+      repeated :players, :message, 1, "starscout.Player"
+      optional :pagination, :message, 2, "starscout.Pagination"
+    end
+    add_message "starscout.GetPlayerRequest" do
+      optional :event_id, :message, 1, "starscout.UUID"
+      optional :id, :message, 2, "starscout.UUID"
+    end
+    add_message "starscout.GetPlayerResponse" do
+      optional :player, :message, 1, "starscout.Player"
+    end
+    add_message "starscout.UpsertPlayerRequest" do
+      optional :event_id, :message, 1, "starscout.UUID"
+      optional :id, :message, 2, "starscout.UUID"
+      optional :name, :string, 3
+      optional :dropped, :bool, 4
+      optional :last_modified_at, :message, 5, "google.protobuf.Timestamp"
+    end
+    add_message "starscout.UpsertPlayerResponse" do
+      oneof :response do
+        optional :player, :message, 1, "starscout.Player"
+        optional :errors, :message, 2, "starscout.ValidationErrors"
+      end
+    end
+    add_message "starscout.DeletePlayerRequest" do
+      optional :event_id, :message, 1, "starscout.UUID"
+      optional :id, :message, 2, "starscout.UUID"
+    end
+    add_message "starscout.DeletePlayerResponse" do
+      oneof :response do
+        optional :success, :bool, 1
+        optional :errors, :message, 2, "starscout.ValidationErrors"
+      end
     end
   end
 end
 
 module Starscout
-  Player = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.Player").msgclass
-  GetPlayersRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayersRequest").msgclass
-  GetPlayersResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayersResponse").msgclass
-  GetPlayerRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayerRequest").msgclass
-  GetPlayerResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayerResponse").msgclass
-  UpsertPlayerRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.UpsertPlayerRequest").msgclass
-  UpsertPlayerResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.UpsertPlayerResponse").msgclass
-  DeletePlayerRequest = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.DeletePlayerRequest").msgclass
-  DeletePlayerResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.DeletePlayerResponse").msgclass
+  Player = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.Player").msgclass
+  GetPlayersRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayersRequest").msgclass
+  GetPlayersResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayersResponse").msgclass
+  GetPlayerRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayerRequest").msgclass
+  GetPlayerResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetPlayerResponse").msgclass
+  UpsertPlayerRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.UpsertPlayerRequest").msgclass
+  UpsertPlayerResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.UpsertPlayerResponse").msgclass
+  DeletePlayerRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.DeletePlayerRequest").msgclass
+  DeletePlayerResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.DeletePlayerResponse").msgclass
 end

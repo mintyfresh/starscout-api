@@ -56,7 +56,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :number, :uint32, 2
       optional :complete, :bool, 3
       optional :last_modified_at, :message, 4, "google.protobuf.Timestamp"
-      repeated :matches_attributes, :message, 5, "starscout.MatchAttributes"
+      repeated :matches, :message, 5, "starscout.MatchAttributes"
     end
     add_message "starscout.UpsertRoundResponse" do
       oneof :response do

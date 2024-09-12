@@ -4,5 +4,6 @@ package starscout;
 
 message UUID
 {
-  bytes value = 1;
+  uint64 upper = 1;
+  uint64 lower = 2;
 }

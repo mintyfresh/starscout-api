@@ -8,16 +8,18 @@ module Starscout
   # @param uuid [String]
   # @return [UUID]
   def self.encode_uuid(uuid)
-    UUID.new(value: [uuid.delete('-')].pack('H*'))
+    upper, lower = uuid.delete('-').scan(/.{16}/).map { |part| part.to_i(16) }
+
+    UUID.new(upper:, lower:)
   end
 
   # @param uuid [UUID]
   # @return [String]
   def self.decode_uuid(uuid)
-    result = uuid.value.bytes.map { |byte| byte.to_s(16).rjust(2, '0') }
-    result = [4, 7, 10, 13].inject(result) { |hex, n| hex.insert(n, '-') }
+    result = [uuid.upper, uuid.lower].map { |part| part.to_s(16).rjust(16, '0') }.join
+    result = result.insert(8, '-').insert(13, '-').insert(18, '-').insert(23, '-')
 
-    result.join
+    result
   end
 
   # @param time [Time]
@@ -34,11 +36,5 @@ module Starscout
     result.utc if utc
 
     result
-  end
-
-  UUID.class_eval do
-    def inspect
-      "<Starscout::UUID: value: #{Starscout.decode_uuid(self)} (binary)>"
-    end
   end
 end

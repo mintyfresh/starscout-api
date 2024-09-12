@@ -6,7 +6,8 @@ require 'google/protobuf'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("starscout/uuid.proto", :syntax => :proto3) do
     add_message "starscout.UUID" do
-      optional :value, :bytes, 1
+      optional :upper, :uint64, 1
+      optional :lower, :uint64, 2
     end
   end
 end

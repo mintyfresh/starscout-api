@@ -3,6 +3,7 @@ syntax = "proto3";
 package starscout;
 
 import "starscout/event.proto";
+import "starscout/match.proto";
 import "starscout/player.proto";
 import "starscout/round.proto";
 
@@ -18,6 +19,11 @@ service Starscout
 
   rpc GetRounds(GetRoundsRequest) returns (GetRoundsResponse) {}
   rpc GetRound(GetRoundRequest) returns (GetRoundResponse) {}
-  rpc UpsertRound(UpsertRoundRequest) returns (UpsertRoundResponse) {}
+  rpc UpsertRound(CreateRoundRequest) returns (CreateRoundResponse) {}
   rpc DeleteRound(DeleteRoundRequest) returns (DeleteRoundResponse) {}
+
+  rpc GetMatches(GetMatchesRequest) returns (GetMatchesResponse) {}
+  rpc GetMatch(GetMatchRequest) returns (GetMatchResponse) {}
+  rpc UpsertMatch(UpsertMatchRequest) returns (UpsertMatchResponse) {}
+  rpc DeleteMatch(DeleteMatchRequest) returns (DeleteMatchResponse) {}
 }

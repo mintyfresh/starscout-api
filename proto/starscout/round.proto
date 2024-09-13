@@ -3,6 +3,7 @@ syntax = "proto3";
 package starscout;
 
 import "starscout/errors.proto";
+import "starscout/match.proto";
 import "starscout/pagination.proto";
 import "starscout/uuid.proto";
 import "google/protobuf/wrappers.proto";
@@ -17,22 +18,9 @@ message Round
   repeated Match matches = 5;
 }
 
-message Match
+message RoundMatchAttributes
 {
   uint32 table = 1;
-  starscout.UUID player1_id = 2;
-  starscout.UUID player2_id = 3;
-  starscout.UUID winner_id = 4;
-  bool draw = 5;
-  bool bye = 6;
-  google.protobuf.Timestamp last_modified_at = 7;
-}
-
-message MatchAttributes
-{
-  uint32 table = 1;
-  bool _destroy = 2;
-
   starscout.UUID player1_id = 3;
   starscout.UUID player2_id = 4;
   starscout.UUID winner_id = 5;
@@ -64,20 +52,19 @@ message GetRoundResponse
   Round round = 1;
 }
 
-message UpsertRoundRequest
+message CreateRoundRequest
 {
   starscout.UUID event_id = 1;
   uint32 number = 2;
-  bool complete = 3;
+  repeated RoundMatchAttributes matches = 3;
   google.protobuf.Timestamp last_modified_at = 4;
-  repeated MatchAttributes matches = 5;
 }
 
-message UpsertRoundResponse
+message CreateRoundResponse
 {
   oneof response
   {
-    Round round = 1;
+    starscout.Round round = 1;
     starscout.ValidationErrors errors = 2;
   }
 }

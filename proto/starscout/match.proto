@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package starscout;
+
+import "starscout/errors.proto";
+import "starscout/pagination.proto";
+import "starscout/uuid.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+message Match
+{
+  uint32 table = 1;
+  starscout.UUID player1_id = 2;
+  starscout.UUID player2_id = 3;
+  starscout.UUID winner_id = 4;
+  bool draw = 5;
+  bool bye = 6;
+  google.protobuf.Timestamp last_modified_at = 7;
+}
+
+message GetMatchesRequest
+{
+  starscout.UUID event_id = 1;
+  uint32 round_number = 2;
+  google.protobuf.UInt32Value page = 3;
+  google.protobuf.UInt32Value per_page = 4;
+}
+
+message GetMatchesResponse
+{
+  repeated Match matches = 1;
+  starscout.Pagination pagination = 2;
+}
+
+message GetMatchRequest
+{
+  starscout.UUID event_id = 1;
+  uint32 round_number = 2;
+  uint32 table = 3;
+}
+
+message GetMatchResponse
+{
+  starscout.Match match = 1;
+}
+
+message UpsertMatchRequest
+{
+  starscout.UUID event_id = 1;
+  uint32 round_number = 2;
+  uint32 table = 3;
+  starscout.UUID player1_id = 4;
+  starscout.UUID player2_id = 5;
+  starscout.UUID winner_id = 6;
+  bool draw = 7;
+  google.protobuf.Timestamp last_modified_at = 8;
+}
+
+message UpsertMatchResponse
+{
+  oneof response
+  {
+    starscout.Match match = 1;
+    starscout.ValidationErrors errors = 2;
+  }
+}
+
+message DeleteMatchRequest
+{
+  starscout.UUID event_id = 1;
+  uint32 round_number = 2;
+  uint32 table = 3;
+}
+
+message DeleteMatchResponse
+{
+  oneof response
+  {
+    starscout.Match match = 1;
+    starscout.ValidationErrors errors = 2;
+  }
+}

@@ -4,6 +4,7 @@
 require 'google/protobuf'
 
 require 'starscout/errors_pb'
+require 'starscout/match_pb'
 require 'starscout/pagination_pb'
 require 'starscout/uuid_pb'
 require 'google/protobuf/wrappers_pb'
@@ -17,18 +18,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :last_modified_at, :message, 4, "google.protobuf.Timestamp"
       repeated :matches, :message, 5, "starscout.Match"
     end
-    add_message "starscout.Match" do
+    add_message "starscout.RoundMatchAttributes" do
       optional :table, :uint32, 1
-      optional :player1_id, :message, 2, "starscout.UUID"
-      optional :player2_id, :message, 3, "starscout.UUID"
-      optional :winner_id, :message, 4, "starscout.UUID"
-      optional :draw, :bool, 5
-      optional :bye, :bool, 6
-      optional :last_modified_at, :message, 7, "google.protobuf.Timestamp"
-    end
-    add_message "starscout.MatchAttributes" do
-      optional :table, :uint32, 1
-      optional :_destroy, :bool, 2
       optional :player1_id, :message, 3, "starscout.UUID"
       optional :player2_id, :message, 4, "starscout.UUID"
       optional :winner_id, :message, 5, "starscout.UUID"
@@ -51,14 +42,13 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "starscout.GetRoundResponse" do
       optional :round, :message, 1, "starscout.Round"
     end
-    add_message "starscout.UpsertRoundRequest" do
+    add_message "starscout.CreateRoundRequest" do
       optional :event_id, :message, 1, "starscout.UUID"
       optional :number, :uint32, 2
-      optional :complete, :bool, 3
+      repeated :matches, :message, 3, "starscout.RoundMatchAttributes"
       optional :last_modified_at, :message, 4, "google.protobuf.Timestamp"
-      repeated :matches, :message, 5, "starscout.MatchAttributes"
     end
-    add_message "starscout.UpsertRoundResponse" do
+    add_message "starscout.CreateRoundResponse" do
       oneof :response do
         optional :round, :message, 1, "starscout.Round"
         optional :errors, :message, 2, "starscout.ValidationErrors"
@@ -79,14 +69,13 @@ end
 
 module Starscout
   Round = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.Round").msgclass
-  Match = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.Match").msgclass
-  MatchAttributes = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.MatchAttributes").msgclass
+  RoundMatchAttributes = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.RoundMatchAttributes").msgclass
   GetRoundsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetRoundsRequest").msgclass
   GetRoundsResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetRoundsResponse").msgclass
   GetRoundRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetRoundRequest").msgclass
   GetRoundResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.GetRoundResponse").msgclass
-  UpsertRoundRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.UpsertRoundRequest").msgclass
-  UpsertRoundResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.UpsertRoundResponse").msgclass
+  CreateRoundRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.CreateRoundRequest").msgclass
+  CreateRoundResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.CreateRoundResponse").msgclass
   DeleteRoundRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.DeleteRoundRequest").msgclass
   DeleteRoundResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("starscout.DeleteRoundResponse").msgclass
 end

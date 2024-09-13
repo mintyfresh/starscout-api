@@ -4,6 +4,7 @@
 require 'google/protobuf'
 
 require 'starscout/event_pb'
+require 'starscout/match_pb'
 require 'starscout/player_pb'
 require 'starscout/round_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do

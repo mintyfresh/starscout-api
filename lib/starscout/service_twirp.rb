@@ -14,8 +14,12 @@ module Starscout
     rpc :DeletePlayer, DeletePlayerRequest, DeletePlayerResponse, :ruby_method => :delete_player
     rpc :GetRounds, GetRoundsRequest, GetRoundsResponse, :ruby_method => :get_rounds
     rpc :GetRound, GetRoundRequest, GetRoundResponse, :ruby_method => :get_round
-    rpc :UpsertRound, UpsertRoundRequest, UpsertRoundResponse, :ruby_method => :upsert_round
+    rpc :UpsertRound, CreateRoundRequest, CreateRoundResponse, :ruby_method => :upsert_round
     rpc :DeleteRound, DeleteRoundRequest, DeleteRoundResponse, :ruby_method => :delete_round
+    rpc :GetMatches, GetMatchesRequest, GetMatchesResponse, :ruby_method => :get_matches
+    rpc :GetMatch, GetMatchRequest, GetMatchResponse, :ruby_method => :get_match
+    rpc :UpsertMatch, UpsertMatchRequest, UpsertMatchResponse, :ruby_method => :upsert_match
+    rpc :DeleteMatch, DeleteMatchRequest, DeleteMatchResponse, :ruby_method => :delete_match
   end
 
   class StarscoutClient < ::Twirp::Client
